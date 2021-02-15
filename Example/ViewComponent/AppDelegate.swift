@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  ViewComponent
 //
-//  Created by tuu on 2021/2/12.
+//  Created by lalawue on 2021/2/12.
 //
 
 import UIKit

@@ -10,6 +10,7 @@ PageEventBus was a modular system build for page internal data exchange, UI and 
 - view model can receive/send event, manipulate view
 - view model can auto connect to event bus when they holding by a visible view
 - events' input/output data are typed
+- business logic's input/output parameters can hide by event bus
 
 ## How it works
 

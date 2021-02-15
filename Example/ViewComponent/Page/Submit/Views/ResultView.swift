@@ -2,7 +2,7 @@
 //  ResultView.swift
 //  ViewComponent
 //
-//  Created by tuu on 2021/2/15.
+//  Created by lalawue on 2021/2/15.
 //
 
 import UIKit
