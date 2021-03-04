@@ -13,11 +13,13 @@ open class BlockView: UIView, BlockViewModelHolder {
     /// BlockViewModel instance
     public var viewModel: BlockViewModelAgent?
 
-    /// connect view model's event bus when move to window
+    /// connect view model's event bus when move to window, invoke view appear/disappear
     open override func didMoveToWindow() {
-        if self.window == nil {
-            return
+        if self.window != nil {
+            findParentAgent()
+            viewModel?.viewAppear()
+        } else if viewModel?.getBus() != nil {
+            viewModel?.viewDisappear()
         }
-        findParentAgent()
     }
 }

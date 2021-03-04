@@ -55,6 +55,7 @@ class InfoViewModel: BlockViewModel<InfoView, SubmitEvent, SubmitResult> {
             str = "Please fill phone"
         }
         view.titleLabel.text = str
+        view.setNeedsLayout()
     }
 }
 

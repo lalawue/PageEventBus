@@ -41,6 +41,14 @@ open class BlockEventAgent<E,R> {
     /// - parameter data: any struct or class
     open func updateData(data: Any?) {
     }
+
+    /// view appear for view model
+    open func viewAppear() {
+    }
+
+    // view disappear for view model
+    open func viewDisappear() {
+    }
 }
 
 /** event bus for dispatching event to agents

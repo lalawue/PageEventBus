@@ -15,6 +15,12 @@ public protocol BlockViewModelAgent {
     
     /// find and connect to parent's event bus
     func findBus()
+
+    /// view appear
+    func viewAppear()
+
+    /// view disappear
+    func viewDisappear()
 }
 
 /** view model holding by view or view controller

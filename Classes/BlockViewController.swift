@@ -20,5 +20,12 @@ open class BlockViewContnroller: UIViewController, BlockViewModelHolder {
         if view.window != nil {
             findParentAgent()
         }
+        viewModel?.viewAppear()
+    }
+
+    /// view disappear to view model
+    open override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        viewModel?.viewDisappear()
     }
 }
