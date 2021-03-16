@@ -12,19 +12,10 @@ import PageEventBus
  */
 class InputViewController: BlockViewContnroller {
     
-    var viewDidLoadCallback: ((InputViewController) -> Void)?
-    
     var viewWillLayoutCallback: ((InputViewController) -> Void)?
     
     override func loadView() {
         self.view = TouchThroughView()
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        if let callback = viewDidLoadCallback {
-            callback(self)
-        }
     }
     
     override func viewWillLayoutSubviews() {

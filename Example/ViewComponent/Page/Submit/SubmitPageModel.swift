@@ -37,11 +37,10 @@ class SubmitPageModel: BlockPageModel<SubmitViewController, UIView, SubmitEvent,
     private func createInputField() {
         // create child view controller
         if let vc = controller.phoneVC {
-            vc.viewDidLoadCallback = { vc in
-                vc.viewModel = InputPageModel(controller: vc, initBus: false)
-                if let model = vc.viewModel as? InputPageModel {
-                    model.data = "Phone"
-                }
+            vc.viewModelCreator = { vc in
+                let model = InputPageModel(controller: vc as! InputViewController, initBus: false)
+                model.data = "Phone"
+                return model
             }
             vc.viewWillLayoutCallback = { vc in
                 guard  let model = vc.viewModel as? InputPageModel else {
@@ -52,11 +51,10 @@ class SubmitPageModel: BlockPageModel<SubmitViewController, UIView, SubmitEvent,
         }
         
         if let vc = controller.emailVC {
-            vc.viewDidLoadCallback = { vc in
-                vc.viewModel = InputPageModel(controller: vc, initBus: false)
-                if let model = vc.viewModel as? InputPageModel {
-                    model.data = "Email"
-                }
+            vc.viewModelCreator = { vc in
+                let model = InputPageModel(controller: vc as! InputViewController, initBus: false)
+                model.data = "Email"
+                return model
             }
             vc.viewWillLayoutCallback = { vc in
                 guard let model = vc.viewModel as? InputPageModel else {

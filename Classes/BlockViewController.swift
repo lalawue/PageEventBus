@@ -13,6 +13,17 @@ open class BlockViewContnroller: UIViewController, BlockViewModelHolder {
 
     /// init view model in viewDidLoad
     public var viewModel: BlockViewModelAgent?
+
+    /// create view model in viewDidLoad
+    public var viewModelCreator: ((UIViewController) -> BlockViewModelAgent?)? = nil
+    
+    /// for create view model after view loaded into memory
+    open override func viewDidLoad() {
+        super.viewDidLoad()
+        if let creator = viewModelCreator {
+            viewModel = creator(self)
+        }
+    }
     
     /// find parent event bus when view's window connected
     open override func viewDidAppear(_ animated: Bool) {
