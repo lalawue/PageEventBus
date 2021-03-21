@@ -13,7 +13,13 @@ open class BlockView: UIView {
     /// BlockViewModel instance
     public var viewModel: BlockViewModelAgent?
 
-    /// connect view model's event bus when move to window, invoke view appear/disappear
+    /// invoke view model view did layout
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        viewModel?.viewDidLayout()
+    }
+
+    /// invoke view appear/disappear
     open override func didMoveToWindow() {
         if self.window != nil {
             viewModel?.viewAppear()

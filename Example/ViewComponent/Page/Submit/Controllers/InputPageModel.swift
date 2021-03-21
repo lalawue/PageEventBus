@@ -22,26 +22,11 @@ class InputPageModel: BlockPageModel<InputViewController, SubmitEvent, SubmitRes
         return f
     }()
     
-    override init(controller: InputViewController) {
-        super.init(controller: controller)
+    // MARK: -
+    
+    override func viewDidLoad() {
         controller.view.addSubview(field)
-    }
-    
-    func layout() {
-        field.frame = CGRect(x: 0, y: 0, width: 180, height: 45)
-        let viewSize = controller.view.frame.size
-        field.center = CGPoint(x: viewSize.width/2, y: viewSize.height/2)
-    }
-    
-    override func agentName() -> String {
-        if field.placeholder == "Phone" {
-            return SubmitNames.PhoneAgent
-        } else {
-            return SubmitNames.EmailAgent
-        }
-    }
-
-    override func updateData(data: Any?) {
+        
         guard let placeHolder = data as? String else {
             return
         }
@@ -59,6 +44,20 @@ class InputPageModel: BlockPageModel<InputViewController, SubmitEvent, SubmitRes
             field.keyboardType = .phonePad
         } else {
             field.keyboardType = .emailAddress
+        }
+    }
+    
+    override func viewDidLayout() {
+        field.frame = CGRect(x: 0, y: 0, width: 180, height: 45)
+        let viewSize = controller.view.frame.size
+        field.center = CGPoint(x: viewSize.width/2, y: viewSize.height/2)
+    }
+    
+    override func agentName() -> String {
+        if field.placeholder == "Phone" {
+            return SubmitNames.PhoneAgent
+        } else {
+            return SubmitNames.EmailAgent
         }
     }
     

@@ -21,15 +21,13 @@ class ResultViewModel: BlockViewModel<ResultView, SubmitEvent, SubmitResult> {
         }
         view.titleLabel.text = title
     }
-    
-    /// when bus connected ( move to window), collect input for other child controller
-    override func connectBus() -> Bool {
-        guard super.connectBus() else {
-            return false
+
+    /// when view appear ( moved to window), and bus connected, collect input from other child controller
+    override func viewAppear() {
+        guard let `bus` = bus else {
+            return
         }
-        guard let rets = bus?.sendEvent(event: .CollectInput) else {
-            return true
-        }
+        let rets = bus.sendEvent(event: .CollectInput)
         let arr = [rets[SubmitNames.PhoneAgent],
                    rets[SubmitNames.EmailAgent]]
         var phoneStr = ""
@@ -52,6 +50,5 @@ class ResultViewModel: BlockViewModel<ResultView, SubmitEvent, SubmitResult> {
         if emailStr.count > 0 {
             view.secondLabel.text = "Email: " + emailStr
         }
-        return true
     }
 }

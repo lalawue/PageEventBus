@@ -20,12 +20,8 @@ class SubmitPageModel: BlockPageModel<SubmitViewController, SubmitEvent, SubmitR
     override func agentName() -> String {
         return SubmitNames.SubmitAgent
     }
-    
-    override func updateData(data: Any?) {
-        guard let cmd = data as? String, cmd == "viewDidLoad" else {
-            return
-        }
-        
+
+    override func viewDidLoad() {
         createInfoView()
         createInputField()
         createSubmit()
@@ -37,33 +33,17 @@ class SubmitPageModel: BlockPageModel<SubmitViewController, SubmitEvent, SubmitR
     private func createInputField() {
         // create child view controller
         if let vc = controller.phoneVC {
-            vc.pageModelCreator = { vc in
-                let model = InputPageModel(controller: vc as! InputViewController)
-                model.connectBus()
-                model.data = "Phone"
-                return model
-            }
-            vc.viewWillLayoutCallback = { vc in
-                guard  let model = vc.pageModel as? InputPageModel else {
-                    return
-                }
-                model.layout()
-            }
+            let model = InputPageModel(controller: vc)
+            vc.pageModel = model
+            model.connectBus()
+            model.data = "Phone"
         }
         
         if let vc = controller.emailVC {
-            vc.pageModelCreator = { vc in
-                let model = InputPageModel(controller: vc as! InputViewController)
-                model.connectBus()
-                model.data = "Email"
-                return model
-            }
-            vc.viewWillLayoutCallback = { vc in
-                guard let model = vc.pageModel as? InputPageModel else {
-                    return
-                }
-                model.layout()
-            }
+            let model = InputPageModel(controller: vc)
+            vc.pageModel = model
+            model.connectBus()
+            model.data = "Email"
         }
         
         if let vc = controller.phoneVC {
@@ -117,7 +97,7 @@ class SubmitPageModel: BlockPageModel<SubmitViewController, SubmitEvent, SubmitR
         resultView = ResultView(frame: CGRect(x: size.width/2-150, y: 0, width: 300, height: 100))
         if let v = resultView {
             v.viewModel = ResultViewModel(view: v)
-            v.viewModel?.connectBus()
+            v.viewModel!.connectBus()
             if let model = v.viewModel as? ResultViewModel {
                 model.data = "Information"
             }

@@ -40,7 +40,7 @@ class SubmitViewController: UIViewController {
         /// create page model
         pageModel = SubmitPageModel(controller: self)
         pageModel!.connectBus()
-        pageModel!.data = "viewDidLoad"
+        pageModel!.viewDidLoad()
     }
     
     override func viewWillLayoutSubviews() {

@@ -77,6 +77,10 @@ open class BlockEventAgent<E,R> {
     open func viewDidLoad() {
     }
 
+    /// view did layout
+    open func viewDidLayout() {
+    }
+
     /// view appear for vpublic iew modpublic el
     open func viewAppear() {
     }

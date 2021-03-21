@@ -19,6 +19,9 @@ public protocol BlockViewModelAgent {
     
     /// view did appear
     func viewDidLoad()
+    
+    /// view did layout
+    func viewDidLayout()
 
     /// view appear
     func viewAppear()

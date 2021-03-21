@@ -1,6 +1,5 @@
 //
 //  BlockViewController.swift
-//  ViewComponent
 //
 //  Created by lalawue on 2021/2/14.
 //
@@ -11,28 +10,28 @@ import UIKit
  */
 open class BlockViewContnroller: UIViewController {
 
-    /// init view model in viewDidLoad
+    /// init page model in viewDidLoad
     public var pageModel: BlockViewModelAgent?
     
-    /// create view model in viewDidLoad
-    public var pageModelCreator: ((UIViewController) -> BlockViewModelAgent?)? = nil
-
-    /// for create view model after view loaded into memory
+    /// view model did load
     open override func viewDidLoad() {
         super.viewDidLoad()
-        if let creator = pageModelCreator {
-            pageModel = creator(self)
-        }
-        pageModel?.viewDidAppear()
+        pageModel?.viewDidLoad()
+    }
+
+    /// page model did layout
+    open override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        pageModel?.viewDidLayout()
     }
     
-    /// find parent event bus when view's window connected
+    /// page model appear
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         pageModel?.viewAppear()
     }
 
-    /// view disappear to view model
+    /// page model disappear
     open override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         pageModel?.viewDisappear()
