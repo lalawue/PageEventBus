@@ -10,13 +10,9 @@ import PageEventBus
 
 /** enter phone, email before submit
  */
-class SubmitViewController: UIViewController, BlockViewModelHolder {
+class SubmitViewController: UIViewController {
     
-    var viewModel: BlockViewModelAgent?
-    
-    var pageModel: SubmitPageModel {
-        return viewModel as! SubmitPageModel
-    }
+    var pageModel: SubmitPageModel?
     
     var phoneVC: InputViewController?
     var emailVC: InputViewController?
@@ -42,8 +38,9 @@ class SubmitViewController: UIViewController, BlockViewModelHolder {
         infoView = InfoView()
         
         /// create page model
-        viewModel = SubmitPageModel(controller: self)
-        pageModel.data = "viewDidLoad"
+        pageModel = SubmitPageModel(controller: self)
+        pageModel!.connectBus()
+        pageModel!.data = "viewDidLoad"
     }
     
     override func viewWillLayoutSubviews() {

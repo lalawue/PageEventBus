@@ -23,9 +23,12 @@ class ResultViewModel: BlockViewModel<ResultView, SubmitEvent, SubmitResult> {
     }
     
     /// when bus connected ( move to window), collect input for other child controller
-    override func busConnected() {
+    override func connectBus() -> Bool {
+        guard super.connectBus() else {
+            return false
+        }
         guard let rets = bus?.sendEvent(event: .CollectInput) else {
-            return
+            return true
         }
         let arr = [rets[SubmitNames.PhoneAgent],
                    rets[SubmitNames.EmailAgent]]
@@ -49,5 +52,6 @@ class ResultViewModel: BlockViewModel<ResultView, SubmitEvent, SubmitResult> {
         if emailStr.count > 0 {
             view.secondLabel.text = "Email: " + emailStr
         }
+        return true
     }
 }

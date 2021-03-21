@@ -10,7 +10,7 @@ import PageEventBus
 
 /** model for submit page
  */
-class SubmitPageModel: BlockPageModel<SubmitViewController, UIView, SubmitEvent, SubmitResult> {
+class SubmitPageModel: BlockPageModel<SubmitViewController, SubmitEvent, SubmitResult> {
     
     var phone: String = ""
     var email: String = ""
@@ -37,13 +37,14 @@ class SubmitPageModel: BlockPageModel<SubmitViewController, UIView, SubmitEvent,
     private func createInputField() {
         // create child view controller
         if let vc = controller.phoneVC {
-            vc.viewModelCreator = { vc in
-                let model = InputPageModel(controller: vc as! InputViewController, initBus: false)
+            vc.pageModelCreator = { vc in
+                let model = InputPageModel(controller: vc as! InputViewController)
+                model.connectBus()
                 model.data = "Phone"
                 return model
             }
             vc.viewWillLayoutCallback = { vc in
-                guard  let model = vc.viewModel as? InputPageModel else {
+                guard  let model = vc.pageModel as? InputPageModel else {
                     return
                 }
                 model.layout()
@@ -51,13 +52,14 @@ class SubmitPageModel: BlockPageModel<SubmitViewController, UIView, SubmitEvent,
         }
         
         if let vc = controller.emailVC {
-            vc.viewModelCreator = { vc in
-                let model = InputPageModel(controller: vc as! InputViewController, initBus: false)
+            vc.pageModelCreator = { vc in
+                let model = InputPageModel(controller: vc as! InputViewController)
+                model.connectBus()
                 model.data = "Email"
                 return model
             }
             vc.viewWillLayoutCallback = { vc in
-                guard let model = vc.viewModel as? InputPageModel else {
+                guard let model = vc.pageModel as? InputPageModel else {
                     return
                 }
                 model.layout()
@@ -66,13 +68,13 @@ class SubmitPageModel: BlockPageModel<SubmitViewController, UIView, SubmitEvent,
         
         if let vc = controller.phoneVC {
             controller.addChild(vc)
-            view.addSubview(vc.view)
+            controller.view.addSubview(vc.view)
             vc.didMove(toParent: controller)
         }
         
         if let vc = controller.emailVC {
             controller.addChild(vc)
-            view.addSubview(vc.view)
+            controller.view.addSubview(vc.view)
             vc.didMove(toParent: controller)
         }
     }
@@ -80,29 +82,30 @@ class SubmitPageModel: BlockPageModel<SubmitViewController, UIView, SubmitEvent,
     private func createInfoView() {
         if let v = controller.infoView {
             v.viewModel = InfoViewModel(view: v)
+            v.viewModel?.connectBus()
             if let model = v.viewModel as? InfoViewModel {
                 model.data = "Please fill both below"
             }
-            view.addSubview(v)
+            controller.view.addSubview(v)
         }
     }
     
     private func createSubmit() {
         controller.confirmButton.isEnabled = false
-        view.addSubview(controller.confirmButton)
+        controller.view.addSubview(controller.confirmButton)
         controller.confirmButton.addTarget(self, action: #selector(onSubmit(button:)), for: .touchUpInside)
     }
     
     private func createTap() {
         let gesture = UITapGestureRecognizer()
-        view.addGestureRecognizer(gesture)
+        controller.view.addGestureRecognizer(gesture)
         gesture.addTarget(self, action: #selector(onTap(gesture:)))
     }
     
     // MARK: - Action
     
     @objc private func onTap(gesture: UITapGestureRecognizer) {
-        view.endEditing(true)
+        controller.view.endEditing(true)
         if resultView != nil {
             resultView!.removeFromSuperview()
             resultView = nil
@@ -110,15 +113,16 @@ class SubmitPageModel: BlockPageModel<SubmitViewController, UIView, SubmitEvent,
     }
     
     @objc private func onSubmit(button: UIButton) {
-        let size = view.frame.size
+        let size = controller.view.frame.size
         resultView = ResultView(frame: CGRect(x: size.width/2-150, y: 0, width: 300, height: 100))
         if let v = resultView {
             v.viewModel = ResultViewModel(view: v)
+            v.viewModel?.connectBus()
             if let model = v.viewModel as? ResultViewModel {
                 model.data = "Information"
             }
             v.center = CGPoint(x: size.width/2, y: size.height/2 - 30)
-            view.addSubview(v)
+            controller.view.addSubview(v)
         }
     }
     

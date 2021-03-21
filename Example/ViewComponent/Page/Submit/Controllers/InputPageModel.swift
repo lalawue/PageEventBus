@@ -10,7 +10,7 @@ import PageEventBus
 
 /** model for input phone or email
  */
-class InputPageModel: BlockPageModel<InputViewController, UIView, SubmitEvent, SubmitResult> {
+class InputPageModel: BlockPageModel<InputViewController, SubmitEvent, SubmitResult> {
     
     fileprivate let fieldDelegate = TextFieldDelegateProxy()
         
@@ -22,14 +22,14 @@ class InputPageModel: BlockPageModel<InputViewController, UIView, SubmitEvent, S
         return f
     }()
     
-    override init(controller: InputViewController, initBus: Bool = true) {
-        super.init(controller: controller, initBus: initBus)
-        self.view.addSubview(field)
+    override init(controller: InputViewController) {
+        super.init(controller: controller)
+        controller.view.addSubview(field)
     }
     
     func layout() {
         field.frame = CGRect(x: 0, y: 0, width: 180, height: 45)
-        let viewSize = view.frame.size
+        let viewSize = controller.view.frame.size
         field.center = CGPoint(x: viewSize.width/2, y: viewSize.height/2)
     }
     
