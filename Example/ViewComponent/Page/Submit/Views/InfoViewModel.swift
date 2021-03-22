@@ -24,6 +24,7 @@ class InfoViewModel: BlockViewModel<InfoView, SubmitEvent, SubmitResult> {
         guard let str = data as? String else {
             return
         }
+        connectBus()
         placeHolder = str
         updateInfo()
     }

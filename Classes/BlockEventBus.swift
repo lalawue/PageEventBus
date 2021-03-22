@@ -38,10 +38,10 @@ open class BlockEventAgent<E,R> {
         guard bus == nil else {
             return true
         }
-        let ret = BlockEventBusManager.getBus(busName)
-        if ret.exist {
-            if let ebus = ret.bus as? BlockEventBus<E,R> {
-                bus = ebus
+        let ebus = BlockEventBusManager.getBus(busName)
+        if ebus != nil {
+            if ebus is BlockEventBus<E,R> {
+                bus = (ebus as! BlockEventBus<E,R>)
             } else {
                 return false
             }
@@ -136,12 +136,8 @@ fileprivate class BlockEventBusManager {
     }
 
     /// get event bus with name, return (exist, bus)
-    static func getBus(_ name: String) -> (exist:Bool, bus:AnyObject?) {
-        let bus = busMap.object(forKey: NSString(string: name))
-        if bus == nil {
-            return (false, nil)
-        }
-        return (true, bus)
+    static func getBus(_ name: String) -> AnyObject? {
+        return busMap.object(forKey: NSString(string: name))
     }
     
     /// set event bus with name
@@ -149,6 +145,10 @@ fileprivate class BlockEventBusManager {
         let `name` = NSString(string: name)
         if busMap.object(forKey: name) == nil {
             busMap.setObject(bus, forKey: name)
+        } else {
+            #if DEBUG
+            assert(false, "bus already exist")
+            #endif
         }
     }
 }

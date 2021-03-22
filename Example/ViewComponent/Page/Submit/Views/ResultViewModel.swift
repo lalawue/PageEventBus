@@ -19,6 +19,7 @@ class ResultViewModel: BlockViewModel<ResultView, SubmitEvent, SubmitResult> {
         guard let title = data as? String else {
             return
         }
+        connectBus()
         view.titleLabel.text = title
     }
 

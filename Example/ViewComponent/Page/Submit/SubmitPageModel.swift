@@ -34,14 +34,14 @@ class SubmitPageModel: BlockPageModel<SubmitViewController, SubmitEvent, SubmitR
         // create child view controller
         if let vc = controller.phoneVC {
             let model = InputPageModel(controller: vc)
-            vc.pageModel = model
+            vc.viewModel = model
             model.connectBus()
             model.data = "Phone"
         }
         
         if let vc = controller.emailVC {
             let model = InputPageModel(controller: vc)
-            vc.pageModel = model
+            vc.viewModel = model
             model.connectBus()
             model.data = "Email"
         }
@@ -62,7 +62,6 @@ class SubmitPageModel: BlockPageModel<SubmitViewController, SubmitEvent, SubmitR
     private func createInfoView() {
         if let v = controller.infoView {
             v.viewModel = InfoViewModel(view: v)
-            v.viewModel?.connectBus()
             if let model = v.viewModel as? InfoViewModel {
                 model.data = "Please fill both below"
             }
@@ -97,7 +96,6 @@ class SubmitPageModel: BlockPageModel<SubmitViewController, SubmitEvent, SubmitR
         resultView = ResultView(frame: CGRect(x: size.width/2-150, y: 0, width: 300, height: 100))
         if let v = resultView {
             v.viewModel = ResultViewModel(view: v)
-            v.viewModel!.connectBus()
             if let model = v.viewModel as? ResultViewModel {
                 model.data = "Information"
             }

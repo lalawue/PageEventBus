@@ -10,13 +10,6 @@ import UIKit
  */
 public protocol BlockViewModelAgent {
 
-    /// try connect bus
-    @discardableResult
-    func connectBus() -> Bool
-    
-    /// find and connect to parent's event bus
-    func disconnectBus()
-    
     /// view did appear
     func viewDidLoad()
     
@@ -28,6 +21,14 @@ public protocol BlockViewModelAgent {
 
     /// view disappear
     func viewDisappear()
+}
+
+/** view model holding by view or view controller
+ */
+public protocol BlockViewModelHolder {
+    
+    /// holding view model
+    var viewModel: BlockViewModelAgent? { get set }
 }
 
 /** event agent holding by view

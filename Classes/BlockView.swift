@@ -8,7 +8,7 @@ import UIKit
 
 /** view as view model holder
  */
-open class BlockView: UIView {
+open class BlockView: UIView, BlockViewModelHolder {
     
     /// BlockViewModel instance
     public var viewModel: BlockViewModelAgent?
