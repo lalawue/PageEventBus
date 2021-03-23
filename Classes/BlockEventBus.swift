@@ -43,6 +43,9 @@ open class BlockEventAgent<E,R> {
             if ebus is BlockEventBus<E,R> {
                 bus = (ebus as! BlockEventBus<E,R>)
             } else {
+                #if DEBUG
+                assert(false, "bus type with another name exist !")
+                #endif
                 return false
             }
         } else {
@@ -145,10 +148,6 @@ fileprivate class BlockEventBusManager {
         let `name` = NSString(string: name)
         if busMap.object(forKey: name) == nil {
             busMap.setObject(bus, forKey: name)
-        } else {
-            #if DEBUG
-            assert(false, "bus already exist")
-            #endif
         }
     }
 }
