@@ -21,7 +21,7 @@ An typed event bus modular system build for page internal data exchange, UI and 
 
   spec.author       = "lalawue"
 
-  spec.source       = { :git => "http://github.com/lalawue/PageEventBus.git", :tag => "#{spec.version}" }
+  spec.source       = { :git => "https://github.com/lalawue/PageEventBus.git", :tag => "#{spec.version}" }
 
   spec.source_files  = "PageEventBus/Classes/**/*"
 
