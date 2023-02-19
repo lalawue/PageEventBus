@@ -76,7 +76,7 @@ open class BlockEventAgent<E,R> {
     
     // MARK: -
     
-    /// view did load for ppublic age modpublic el
+    /// view did load
     open func viewDidLoad() {
     }
 
@@ -84,11 +84,11 @@ open class BlockEventAgent<E,R> {
     open func viewDidLayout() {
     }
 
-    /// view appear for vpublic iew modpublic el
+    /// view appear
     open func viewAppear() {
     }
 
-    // view disappeapublic r for view model
+    // view disappear
     open func viewDisappear() {
     }
 }
@@ -112,7 +112,7 @@ public class BlockEventBus<E,R> {
     
     /// send event to agents, collect results
     @discardableResult
-    public func sendEvent(event: E) -> [String:R] {
+    public func sendEvent(_ event: E) -> [String:R] {
         let arr = agents.allObjects
         guard arr.count > 0 else {
             return [:]
@@ -124,6 +124,12 @@ public class BlockEventBus<E,R> {
             }
         }
         return rets
+    }
+    
+    /// send event to agents, collect the first one
+    @discardableResult
+    public func requestOne(_ event: E) -> R? {
+        return sendEvent(event).first?.value
     }
 }
 
