@@ -2,7 +2,7 @@
 
 # Introduction
 
-PageEventBus was a modular system build for page internal data exchange, UI and business logic independent.
+PageEventBus was a typed event bus modular system build for page internal data exchange, UI and business logic independent.
 
 ## Features
 
@@ -12,9 +12,17 @@ PageEventBus was a modular system build for page internal data exchange, UI and 
 - events' input/output data are typed
 - business logic's input/output parameters can hide by event bus
 
+## Install
+
+To integrate `PageEventBus` into your Xcode project using CocoaPods, specify it in your Podfile:
+
+```
+    pod 'PageEventBus'
+```
+
 # Example
 
-first pod install to genereate .xcworkspace
+first `pod install` to genereate .xcworkspace
 
 ```bash
 $ cd Example
