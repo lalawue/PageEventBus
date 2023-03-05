@@ -7,6 +7,7 @@
 
 import UIKit
 import PinStackView
+import PageEventBus
 
 class ViewController: UIViewController {
     
@@ -40,6 +41,20 @@ class ViewController: UIViewController {
             view.addSubview(btn)
         }
         
+        let btn = UIButton().then {
+            $0.tag = 120
+            $0.contentEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+            $0.layer.borderWidth = 0.5
+            $0.layer.borderColor = UIColor.gray.cgColor
+            $0.layer.cornerRadius = 4
+            $0.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+            $0.setTitle("Detect Memory Leak", for: .normal)
+            $0.setTitleColor(.black, for: .normal)
+            $0.addTarget(self, action: #selector(onTap(_:)), for: .touchUpInside)
+        }
+        buttons.append(btn)
+        view.addSubview(btn)
+        
         navigationController?.view.addSubview(noticeView)
         noticeView.viewModel?.viewDidLoad()
     }
@@ -55,11 +70,31 @@ class ViewController: UIViewController {
     }
     
     @objc func onTap(_ button: UIButton) {
-        let vc = BaseViewController(context: "\(button.tag)", fieldCount: button.tag).then {
-            $0.titleLabel.text = "collect level \(button.tag) scores"
-            $0.viewModel = BasePageModel(controller: $0)
+        let vc: UIViewController
+        if button.tag > 100 {
+            vc = BaseViewController(context: "\(button.tag)", fieldCount: 1).then {
+                $0.titleLabel.text = "pop view conroller to get detacher report"
+                $0.viewModel = MemoryLeakModel(controller: $0)
+            }
+        } else {
+            vc = BaseViewController(context: "\(button.tag)", fieldCount: button.tag).then {
+                $0.titleLabel.text = "collect level \(button.tag) scores"
+                $0.viewModel = BasePageModel(controller: $0)
+            }
         }
         navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+fileprivate class MemoryLeakModel: BlockPageModel<UIViewController, Void, Void> {
+    
+    private var retailBlock: (() -> Void)?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.retailBlock = {
+            self.controller.view.backgroundColor = .gray.withAlphaComponent(0.4)
+        }
     }
 }
 

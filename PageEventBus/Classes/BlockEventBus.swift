@@ -8,7 +8,7 @@ import Foundation
 
 /** agent can receive event, then provide result, also have data interface for business logic
  */
-open class BlockEventAgent<E,R> {
+open class BlockEventAgent<E,R>: AgentDetatchProtocol {
     
     /// data setter
     public var data: Any? {
@@ -73,6 +73,19 @@ open class BlockEventAgent<E,R> {
     open func didReceiveEvent(event: E) -> R? {
         return nil
     }
+
+    /// support auto disconnect bus after holder dealloc
+    open func supportDetacher() -> Bool {
+        return true
+    }
+
+    /// agent creation
+    /// - parameter holder: which holding agent
+    public init(holder: NSObject?) {
+        if let `holder` = holder, supportDetacher() {
+            BlockAgentDetacher.install(holder: holder, agent: self)
+        }
+    }
     
     // MARK: -
     
@@ -126,10 +139,15 @@ public class BlockEventBus<E,R> {
         return rets
     }
     
-    /// send event to agents, collect the first one
+    /// send event to agents, collect the very first one response
+    /// - parameter from: specify responder's name
     @discardableResult
-    public func requestOne(_ event: E) -> R? {
-        return sendEvent(event).first?.value
+    public func requestOne(_ event: E, from agentName: String? = nil) -> R? {
+        if let `agentName` = agentName {
+            return sendEvent(event).filter({ $0.key == agentName }).first?.value
+        } else {
+            return sendEvent(event).first?.value
+        }
     }
 }
 
@@ -157,4 +175,3 @@ fileprivate class BlockEventBusManager {
         }
     }
 }
-

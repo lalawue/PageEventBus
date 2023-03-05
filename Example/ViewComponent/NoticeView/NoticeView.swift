@@ -2,7 +2,7 @@
 //  NoticeView.swift
 //  ViewComponent
 //
-//  Created by lii on 2023/2/19.
+//  Created by lalawue on 2023/2/19.
 //
 
 import UIKit

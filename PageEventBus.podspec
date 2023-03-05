@@ -9,7 +9,7 @@
 Pod::Spec.new do |spec|
 
   spec.name         = "PageEventBus"
-  spec.version      = "0.1.20230219"
+  spec.version      = "0.2.20230305"
   spec.summary      = "Typed Event bus for View and ViewController."
 
   spec.description  = <<-DESC

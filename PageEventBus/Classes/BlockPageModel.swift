@@ -17,5 +17,6 @@ open class BlockPageModel<C:UIViewController,E,R>: BlockEventAgent<E,R>, BlockVi
     /// - parameter controller: bind with controller
     public init(controller: C) {
         self.controller = controller
+        super.init(holder: controller)
     }
 }

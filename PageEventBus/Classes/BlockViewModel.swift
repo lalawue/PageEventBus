@@ -42,5 +42,6 @@ open class BlockViewModel<V:UIView,E,R>: BlockEventAgent<E,R>, BlockViewModelAge
     /// - parameter view: bind with view
     public init(view: V) {
         self.view = view
+        super.init(holder: view)
     }
 }
