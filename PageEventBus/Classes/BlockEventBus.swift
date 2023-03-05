@@ -8,7 +8,7 @@ import Foundation
 
 /** agent can receive event, then provide result, also have data interface for business logic
  */
-open class BlockEventAgent<E,R>: AgentDetatchProtocol {
+open class BlockEventAgent<E,R> {
     
     /// data setter
     public var data: Any? {
@@ -83,7 +83,7 @@ open class BlockEventAgent<E,R>: AgentDetatchProtocol {
     /// - parameter holder: which holding agent
     public init(holder: NSObject?) {
         if let `holder` = holder, supportDetacher() {
-            BlockAgentDetacher.install(holder: holder, agent: self)
+            BlockAgentDetacher<E,R>.install(holder: holder, agent: self)
         }
     }
     

@@ -25,17 +25,12 @@ extension NSObject {
     }
 }
 
-/// internal protocol erase typed infomation
-protocol AgentDetatchProtocol: AnyObject {
-    func disconnectBus()
-}
-
 /// agent auto detach evnt bus when holder dealloc
 /// - when holder dealloc, also means detacher dealloc
 /// - if agent still alive, means encounter retain circle (memory leaks) most of the time
-class BlockAgentDetacher {
+class BlockAgentDetacher<E,R> {
 
-    private weak var agent: AgentDetatchProtocol?
+    private weak var agent: BlockEventAgent<E,R>?
     private let agentName: String
     private let holderName: String
     
@@ -54,13 +49,13 @@ class BlockAgentDetacher {
 #endif
     }
     
-    private init(holder: NSObject, agent: AgentDetatchProtocol) {
+    private init(holder: NSObject, agent: BlockEventAgent<E,R>) {
         self.agent = agent
         self.agentName = String(describing: agent)
         self.holderName = String(describing: holder)
     }
     
-    static func install(holder: NSObject, agent: AgentDetatchProtocol) {
+    static func install(holder: NSObject, agent: BlockEventAgent<E,R>) {
         let detacher = BlockAgentDetacher(holder: holder, agent: agent)
         holder.block_model_holder_detacher = detacher
     }
